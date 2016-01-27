@@ -1,10 +1,97 @@
 ﻿{
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
+  "parameters": {
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "New Storage Account Name"
+      }
     },
-    "variables": {
+    "location": {
+      "type": "string",
+      "defaultValue": "West US",
+      "allowedValues": [
+        "Brazil South",
+        "Central US",
+        "East Aisa",
+        "East US",
+        "East US 2",
+        "Japan East",
+        "Japan West",
+        "North Central US",
+        "North Europe",
+        "South Central US",
+        "Southeast Aisa",
+        "West Europe",
+        "West US"
+      ],
+      "metadata": {
+        "description": "The data center you want to install this WAF into."
+      }
     },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username used to login with."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password used to login with."
+      }
+    },
+    "publicDNSName": {
+      "type": "string",
+      "metadata": {
+        "description": "The unique DNS name not FQDN, that will be accessible via the Internet. "
+      }
+    },
+    "numberOfInstances": {
+      "type": "int",
+      "defaultValue": 3,
+      "metadata": {
+        "description": "The total number of servers to be deployed.  Numerically, the last server will be the MySQL server."
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_A1",
+      "allowedValues": [
+        "Standard_A0",
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4"
+      ],
+      "metadata": {
+        "description": "Virtual Machine instance size."
+      }
+    }
+  },
+  "variables": {
+    "lbName": "myLB",
+    "avSetName": "myAVSet",
+    "nicNamePrefix": "myNIC",
+    "virtualNetworkName": "myVNET",
+    "vnetAddressPrefix": "10.10.0.0/16",
+    "subnetName": "mySubnet",
+    "subnetPrefix": "10.10.1.0/24",
+    "imagePublisher": "Canonical",
+    "imageOffer": "UbuntuServer",
+    "imageSKU": "14.04.2-LTS",
+    "storageAccountType": "Standard_LRS",
+    "vmNamePrefix": "myVM",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables ('subnetName'))]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicDNSName'))]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('lbName'))]",
+    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]",
+    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]",
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
+    "lbProbe443ID": "[concat(variables('lbID'),'/probes/tcpProbe443')]"
+  },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
@@ -12,13 +99,13 @@
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "properties": {
-        "accountType": "[parameters('storageAccountType')]"
+        "accountType": "[variables('storageAccountType')]"
       }
     },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/virtualNetworks",
-      "name": "[parameters('virtualNetworkName')]",
+      "name": "[variables('virtualNetworkName')]",
       "location": "[parameters('location')]",
       "tags": {
         "displayName": "VirtualNetwork"
@@ -26,14 +113,14 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "[parameters('vnetAddressPrefix')]"
+            "[variables('vnetAddressPrefix')]"
           ]
         },
         "subnets": [
           {
-            "name": "[parameters('subnetName')]",
+            "name": "[variables('subnetName')]",
             "properties": {
-              "addressPrefix": "[parameters('subnetPrefix')]"
+              "addressPrefix": "[variables('subnetPrefix')]"
             }
           }
         ]
@@ -41,7 +128,7 @@
     },
     {
       "type": "Microsoft.Compute/availabilitySets",
-      "name": "[parameters('avSetName')]",
+      "name": "[variables('avSetName')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "properties": { }
@@ -112,7 +199,7 @@
     },
     {
       "apiVersion": "2015-05-01-preview",
-      "name": "[parameters('lbName')]",
+      "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[parameters('location')]",
       "dependsOn": [
@@ -264,6 +351,48 @@
       "type": "Microsoft.Resources/deployments",
       "tags": {
         "displayName": "openCartMySQLTemplate"
+      },
+      "dependsOn": [
+
+      ],
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "StorageAccountName": { "value": "[parameters('StorageAccountName')]" }
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-01-01",
+      "name": "opencartmysqltemplate",
+      "type": "Microsoft.Resources/deployments",
+      "tags": {
+        "displayName": "openCartWebServerTemplate"
+      },
+      "dependsOn": [
+
+      ],
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "StorageAccountName": { "value": "[parameters('StorageAccountName')]" }
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-01-01",
+      "name": "opencartmysqltemplate",
+      "type": "Microsoft.Resources/deployments",
+      "tags": {
+        "displayName": "F5WAFTemplate"
       },
       "dependsOn": [
 
