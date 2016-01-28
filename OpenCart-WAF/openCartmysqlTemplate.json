@@ -19,9 +19,9 @@
     }
   },
   "variables": {
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('namePrefix'),'-VNET'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',concat(parameters('namePrefix'),'-Subnet'))]",
-    "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'),'-LB'))]",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('namePrefix'),'-vnet'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',concat(parameters('namePrefix'),'-subnet'))]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'),'-lb'))]",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
     "imageSKU": "14.04.2-LTS"
@@ -33,15 +33,15 @@
       "tags": {
         "displayName": "NIC"
       },
-      "name": "[concat(parameters('NamePrefix'),'-NIC')]",
+      "name": "[concat(parameters('NamePrefix'),'-nic')]",
       "location": "[parameters('location')]",      
       "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', parameters('namePrefix'), '-LB')]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('namePrefix'),'-NSG')]"
+        "[concat('Microsoft.Network/loadBalancers/', parameters('namePrefix'), '-lb')]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('namePrefix'),'-nsg')]"
       ],
       "properties": {
         "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups/', concat(parameters('namePrefix'),'-NSG'))]"
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups/', concat(parameters('namePrefix'),'-nsg'))]"
         },
         "ipConfigurations": [
           {
@@ -58,7 +58,7 @@
               ],
               "loadBalancerInboundNatRules": [
                 {
-                  "id": "[concat(variables('lbID'),'/inboundNatRules/SSH-SQL')]"
+                  "id": "[concat(variables('lbID'),'/inboundNatRules/ssh-sql')]"
                 }
               ]
             }
@@ -72,22 +72,22 @@
       "tags": {
         "displayName": "MySQL Virtual Machine"
       },
-      "name": "[concat(parameters('namePrefix'), '-SQL')]",
+      "name": "[concat(parameters('namePrefix'), '-sql')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', parameters('namePrefix'),'-Storage')]",
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'-NIC')]",
-        "[concat('Microsoft.Compute/availabilitySets/', parameters('namePrefix'),'-AVSet')]"
+        "[concat('Microsoft.Storage/storageAccounts/', parameters('namePrefix'),'-storage')]",
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'-nic')]",
+        "[concat('Microsoft.Compute/availabilitySets/', parameters('namePrefix'),'-avset')]"
       ],
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets',concat(parameters('namePrefix'),'-AVSet'))]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',concat(parameters('namePrefix'),'-avset'))]"
         },
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[concat(parameters('namePrefix'), '-SQL')]",
+          "computerName": "[concat(parameters('namePrefix'), '-sql')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -101,7 +101,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('namePrefix'),'-Storage','.blob.core.windows.net/vhds/','osdisk01.vhd')]"
+              "uri": "[concat('http://',parameters('namePrefix'),'-storage','.blob.core.windows.net/vhds/','osdisk01.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -110,14 +110,14 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namePrefix'),'-NIC'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namePrefix'),'-nic'))]"
             }
           ]
         },
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": true,
-            "storageUri": "[concat('http://',parameters('namePrefix'),'-Storage','.blob.core.windows.net')]"
+            "storageUri": "[concat('http://',parameters('namePrefix'),'-storage','.blob.core.windows.net')]"
           }
         }
       }
@@ -127,11 +127,11 @@
       "tags": {
         "displayName": "MySQL Startup Script"
       },
-      "name": "[concat(parameters('namePrefix'), '-SQL/mysql_startup_script')]",
+      "name": "[concat(parameters('namePrefix'), '-sql/mysql_startup_script')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('namePrefix'),'-SQL')]"
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('namePrefix'),'-sql')]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
