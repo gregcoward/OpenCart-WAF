@@ -326,7 +326,7 @@
         "displayName": "openCartMySQLTemplate"
       },
       "dependsOn": [
-        [ "concat('Microsoft.Network/loadBalancers/", "parameters('namePrefix'),'-LB')" ]
+        "[concat('Microsoft.Network/loadBalancers/", "parameters('namePrefix'),'-LB')]"
       ],
       "properties": {
         "mode": "incremental",
@@ -351,7 +351,7 @@
         "displayName": "openCartWebServerTemplate"
       },
       "dependsOn": [
-        [ "Microsoft.Resources/deployments/opencartmysqltemplate" ]
+        "Microsoft.Resources/deployments/opencartmysqltemplate"
       ],
       "properties": {
         "mode": "incremental",
