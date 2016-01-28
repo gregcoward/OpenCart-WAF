@@ -29,7 +29,10 @@
       <Visible>False</Visible>
     </None>
     <Content Include="azuredeploy.json" />
+    <None Include="mysql_startup_script.sh" />
+    <None Include="openCartWebTemplate.json" />
     <None Include="openCartmysqlTemplate.json" />
+    <None Include="startup_script.sh" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

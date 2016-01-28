@@ -2,10 +2,10 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
   "parameters": {
-    "storageAccountName": {
+    "namePrefix": {
       "type": "string",
       "metadata": {
-        "description": "New Storage Account Name"
+        "description": "The name that will prefix all objects, and will serve as the unique DNS name for this instance."
       }
     },
     "location": {
@@ -42,19 +42,6 @@
         "description": "Admin password used to login with."
       }
     },
-    "publicDNSName": {
-      "type": "string",
-      "metadata": {
-        "description": "The unique DNS name not FQDN, that will be accessible via the Internet. "
-      }
-    },
-    "numberOfInstances": {
-      "type": "int",
-      "defaultValue": 3,
-      "metadata": {
-        "description": "The total number of servers to be deployed.  Numerically, the last server will be the MySQL server."
-      }
-    },
     "vmSize": {
       "type": "string",
       "defaultValue": "Standard_A1",
@@ -71,21 +58,16 @@
     }
   },
   "variables": {
-    "lbName": "myLB",
-    "avSetName": "myAVSet",
-    "nicNamePrefix": "myNIC",
-    "virtualNetworkName": "myVNET",
+    "lbName": "concat(parameters('namePrefix'), '-LB')",
+    "avSetName": "concat(parameters('namePrefix'), '-AVSet')",
+    "virtualNetworkName": "concat(parameters('namePrefix'), '-VNET')",
     "vnetAddressPrefix": "10.10.0.0/16",
-    "subnetName": "mySubnet",
+    "subnetName": "concat(parameters('namePrefix'), '-Subnet')",
     "subnetPrefix": "10.10.1.0/24",
-    "imagePublisher": "Canonical",
-    "imageOffer": "UbuntuServer",
-    "imageSKU": "14.04.2-LTS",
     "storageAccountType": "Standard_LRS",
-    "vmNamePrefix": "myVM",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables ('subnetName'))]",
-    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicDNSName'))]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('namePrefix'))]",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('lbName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]",
     "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]",
@@ -95,7 +77,10 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[parameters('storageAccountName')]",
+      "tags": {
+        "displayName": "Storage Account"
+      },
+      "name": "[concat(parameters('namePrefix'),'-Storage')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "properties": {
@@ -128,6 +113,9 @@
     },
     {
       "type": "Microsoft.Compute/availabilitySets",
+      "tags": {
+        "displayName": "Availability Set"
+      },
       "name": "[variables('avSetName')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
@@ -136,19 +124,25 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[parameters('publicDNSName')]",
+      "tags": {
+        "displayName": "Public IP Address"
+      },
+      "name": "[parameters('namePrefix')]",
       "location": "[parameters('location')]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('publicDNSName')]"
+          "domainNameLabel": "[parameters('namePrefix')]"
         }
       }
     },
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[concat(parameters('publicDNSName'), '-NSG')]",
+      "tags": {
+        "displayName": "Network Security Group"
+      },
+      "name": "[concat(parameters('namePrefix'), '-NSG')]",
       "location": "[parameters('location')]",
       "properties": {
         "securityRules": [
@@ -201,9 +195,12 @@
       "apiVersion": "2015-05-01-preview",
       "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
+      "tags": {
+        "displayName": "Azure Load Balancer"
+      },
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', parameters('publicDNSName'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('namePrefix'))]"
       ],
       "properties": {
         "frontendIPConfigurations": [
@@ -247,37 +244,13 @@
             }
           },
           {
-            "name": "SSH-VM2",
+            "name": "SSH-SQL",
             "properties": {
               "frontendIPConfiguration": {
                 "id": "[variables('frontEndIPConfigID')]"
               },
               "protocol": "tcp",
               "frontendPort": 8024,
-              "backendPort": 22,
-              "enableFloatingIP": false
-            }
-          },
-          {
-            "name": "SSH-VM3",
-            "properties": {
-              "frontendIPConfiguration": {
-                "id": "[variables('frontEndIPConfigID')]"
-              },
-              "protocol": "tcp",
-              "frontendPort": 8025,
-              "backendPort": 22,
-              "enableFloatingIP": false
-            }
-          },
-          {
-            "name": "SSH-VM4",
-            "properties": {
-              "frontendIPConfiguration": {
-                "id": "[variables('frontEndIPConfigID')]"
-              },
-              "protocol": "tcp",
-              "frontendPort": 8026,
               "backendPort": 22,
               "enableFloatingIP": false
             }
@@ -353,7 +326,7 @@
         "displayName": "openCartMySQLTemplate"
       },
       "dependsOn": [
-
+        [ "concat('Microsoft.Network/loadBalancers/", "parameters('namePrefix'),'-LB')" ]
       ],
       "properties": {
         "mode": "incremental",
@@ -362,19 +335,23 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "StorageAccountName": { "value": "[parameters('StorageAccountName')]" }
+          "namePrefix": { "value": "[parameters('namePrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "vmSize": { "value": "[parameters('vmSize')]" },
+          "adminUsername": { "value": "[parameters('adminUsername')]" },
+          "adminPassword": {"value": "[parameters('adminPassword')]"}
         }
       }
     },
     {
       "apiVersion": "2015-01-01",
-      "name": "opencartmysqltemplate",
+      "name": "openCartWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "tags": {
         "displayName": "openCartWebServerTemplate"
       },
       "dependsOn": [
-
+        [ "Microsoft.Resources/deployments/opencartmysqltemplate" ]
       ],
       "properties": {
         "mode": "incremental",
@@ -383,7 +360,11 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "StorageAccountName": { "value": "[parameters('StorageAccountName')]" }
+          "namePrefix": { "value": "[parameters('namePrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "vmSize": { "value": "[parameters('vmSize')]" },
+          "adminUsername": { "value": "[parameters('adminUsername')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
       }
     },
