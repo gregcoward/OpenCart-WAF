@@ -139,7 +139,7 @@
         "typeHandlerVersion": "1.2",
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/tstanley93/Ubuntu-Servers/create-vnet/mysql_startup_script.sh"
+            "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/mysql_startup_script.sh"
           ],
           "commandToExecute": "[concat('bash mysql_startup_script.sh ',parameters('adminPassword'))]"
         }

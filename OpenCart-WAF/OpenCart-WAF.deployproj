@@ -30,6 +30,7 @@
     </None>
     <Content Include="azuredeploy.json" />
     <None Include="mysql_startup_script.sh" />
+    <None Include="opencart-2.0.1.1.zip" />
     <None Include="openCartWebTemplate.json" />
     <None Include="openCartmysqlTemplate.json" />
     <None Include="startup_script.sh" />
