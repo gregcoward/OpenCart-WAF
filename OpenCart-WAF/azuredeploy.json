@@ -62,7 +62,7 @@
     "avSetName": "[concat(parameters('namePrefix'), 'avset')]",
     "virtualNetworkName": "[concat(parameters('namePrefix'), 'vnet')]",
     "vnetAddressPrefix": "10.10.0.0/16",
-    "subnetName": "concat(parameters('namePrefix'), 'subnet')",
+    "subnetName": "[concat(parameters('namePrefix'), 'subnet')]",
     "subnetPrefix": "10.10.1.0/24",
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
