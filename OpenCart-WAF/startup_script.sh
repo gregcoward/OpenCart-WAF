@@ -23,6 +23,17 @@
 ## 11/23/15#  Thomas Stanley#    Created base functionality              ##
 ###########################################################################
 
+
+####  Incoming Paramters Key  #############################################
+# $1 = MySQL Server Name
+# $2 = DNS Name
+# $3 = Number of Web Servers
+# $4 = Name Prefix of Web Servers
+# $5 = Admin Username
+# $6 = Admin Password
+###########################################################################
+
+
 apt-get update
 
 apt-get -y install build-essential libssl-dev binutils binutils-dev openssl
@@ -46,22 +57,6 @@ mv opencart-2.0.1.1/upload /var/www/html/opencart
 mv /var/www/html/opencart/config-dist.php /var/www/html/opencart/config.php
 mv /var/www/html/opencart/admin/config-dist.php /var/www/html/opencart/admin/config.php
 echo "Moved config files."
-
-echo "Wait for the SQL server to come alive!"
-i=0
-while [ $i == 0 ]
-do
-sshpass -p${6} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${5}@$1 "mysql -u opencart -p${6} -Bse 'select 1;'"
-status=$?
-if [ $status == 0 ]
-then
-   i=$[$i+1]
-else
-   echo "Sleeping for 10 seconds while we wait for the MySQL server to come online."
-   sleep 10
-fi
-done
-echo "SQL server is now alive."
 
 sqlserver=$(nslookup $1 | awk '/^Address: / { print $2 }')
 echo "Grabbed the IP address ($sqlserver) of the SQL Server."
