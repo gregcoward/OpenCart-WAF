@@ -326,7 +326,7 @@
         "displayName": "openCartMySQLTemplate"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/',variables('lbName'))]"       
+        "[concat('Microsoft.Network/loadBalancers/', variables('lbName'))]"       
       ],
       "properties": {
         "mode": "incremental",
