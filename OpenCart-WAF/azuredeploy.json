@@ -58,9 +58,9 @@
     }
   },
   "variables": {
-    "lbName": "concat(parameters('namePrefix'), 'lb')",
-    "avSetName": "concat(parameters('namePrefix'), 'avset')",
-    "virtualNetworkName": "concat(parameters('namePrefix'), 'vnet')",
+    "lbName": "[concat(parameters('namePrefix'), 'lb')]",
+    "avSetName": "[concat(parameters('namePrefix'), 'avset')]",
+    "virtualNetworkName": "[concat(parameters('namePrefix'), 'vnet')]",
     "vnetAddressPrefix": "10.10.0.0/16",
     "subnetName": "concat(parameters('namePrefix'), 'subnet')",
     "subnetPrefix": "10.10.1.0/24",
