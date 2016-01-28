@@ -151,8 +151,8 @@
         "typeHandlerVersion": "1.2",
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/tstanley93/Ubuntu-Servers/create-vnet/startup_script.sh",
-            "https://raw.githubusercontent.com/tstanley93/Ubuntu-Servers/create-vnet/opencart-2.0.1.1.zip"
+            "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/startup_script.sh",
+            "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/opencart-2.0.1.1.zip"
           ],
           "commandToExecute": "[concat('bash startup_script.sh ',parameters('namePrefix'),'-SQL',' ',parameters('namePrefix'),' ',2, ' ',parameters('namePrefix'), '-Web ',parameters('adminUsername'), ' ',parameters('adminPassword'))]"
         }

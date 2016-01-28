@@ -331,7 +331,7 @@
       "properties": {
         "mode": "incremental",
         "templateLink": {
-          "uri": "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+          "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartmysqlTemplate.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -356,7 +356,7 @@
       "properties": {
         "mode": "incremental",
         "templateLink": {
-          "uri": "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+          "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartWebTemplate.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -367,29 +367,24 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
       }
-    },
-    {
-      "apiVersion": "2015-01-01",
-      "name": "opencartmysqltemplate",
-      "type": "Microsoft.Resources/deployments",
-      "tags": {
-        "displayName": "F5WAFTemplate"
-      },
-      "dependsOn": [
-
-      ],
-      "properties": {
-        "mode": "incremental",
-        "templateLink": {
-          "uri": "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "StorageAccountName": { "value": "[parameters('StorageAccountName')]" }
-        }
-      }
     }
   ],
-    "outputs": {
+  "outputs": {
+    "App-URL": {
+      "type": "string",
+      "value": "[concat('http://',reference(variables('publicIPAddressID')).dnsSettings.fqdn)]"
+    },
+    "MySQL-SSH": {
+      "type": "string",
+      "value": "[concat(reference(variables('publicIPAddressID')).dnsSettings.fqdn,' ',8024)]"
+    },
+    "Webserver1-SSH": {
+      "type": "string",
+      "value": "[concat(reference(variables('publicIPAddressID')).dnsSettings.fqdn,' ',8022)]"
+    },
+    "Webserver2-SSH": {
+      "type": "string",
+      "value": "[concat(reference(variables('publicIPAddressID')).dnsSettings.fqdn,' ',8023)]"
     }
+  }
 }
