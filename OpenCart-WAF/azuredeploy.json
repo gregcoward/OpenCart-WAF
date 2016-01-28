@@ -58,11 +58,11 @@
     }
   },
   "variables": {
-    "lbName": "concat(parameters('namePrefix'), '-lb')",
-    "avSetName": "concat(parameters('namePrefix'), '-avset')",
-    "virtualNetworkName": "concat(parameters('namePrefix'), '-vvet')",
+    "lbName": "concat(parameters('namePrefix'), 'lb')",
+    "avSetName": "concat(parameters('namePrefix'), 'avset')",
+    "virtualNetworkName": "concat(parameters('namePrefix'), 'vnet')",
     "vnetAddressPrefix": "10.10.0.0/16",
-    "subnetName": "concat(parameters('namePrefix'), '-subnet')",
+    "subnetName": "concat(parameters('namePrefix'), 'subnet')",
     "subnetPrefix": "10.10.1.0/24",
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
@@ -80,7 +80,7 @@
       "tags": {
         "displayName": "Storage Account"
       },
-      "name": "[concat(parameters('namePrefix'),'-storage')]",
+      "name": "[concat(parameters('namePrefix'),'storage')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "properties": {
@@ -142,7 +142,7 @@
       "tags": {
         "displayName": "Network Security Group"
       },
-      "name": "[concat(parameters('namePrefix'), '-nsg')]",
+      "name": "[concat(parameters('namePrefix'), 'nsg')]",
       "location": "[parameters('location')]",
       "properties": {
         "securityRules": [
