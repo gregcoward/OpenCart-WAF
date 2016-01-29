@@ -3,32 +3,10 @@
     "contentVersion": "1.0.0.0",
   "parameters": {
     "namePrefix": {
-      "type": "string",
-      "metadata": {
-        "description": "The name that will prefix all objects, and will serve as the unique DNS name for this instance."
-      }
+      "type": "string"
     },
     "location": {
-      "type": "string",
-      "defaultValue": "West US",
-      "allowedValues": [
-        "Brazil South",
-        "Central US",
-        "East Aisa",
-        "East US",
-        "East US 2",
-        "Japan East",
-        "Japan West",
-        "North Central US",
-        "North Europe",
-        "South Central US",
-        "Southeast Aisa",
-        "West Europe",
-        "West US"
-      ],
-      "metadata": {
-        "description": "The data center you want to install this WAF into."
-      }
+      "type": "string"      
     }
   },
   "variables": {

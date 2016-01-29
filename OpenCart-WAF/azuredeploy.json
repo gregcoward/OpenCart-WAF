@@ -126,10 +126,7 @@
         },
         "parameters": {
           "namePrefix": { "value": "[parameters('namePrefix')]" },
-          "location": { "value": "[parameters('location')]" },
-          "vmSize": { "value": "[parameters('vmSize')]" },
-          "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "adminPassword": { "value": "[parameters('adminPassword')]" }
+          "location": { "value": "[parameters('location')]" }
         }
       }
     },
