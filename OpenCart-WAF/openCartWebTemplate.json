@@ -38,11 +38,7 @@
       "copy": {
         "name": "nicLoop",
         "count": 2
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', parameters('namePrefix'), 'lb')]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('namePrefix'),'nsg')]"
-      ],
+      },      
       "properties": {
         "networkSecurityGroup": {
           "id": "[resourceId('Microsoft.Network/networkSecurityGroups/', concat(parameters('namePrefix'),'nsg'))]"
@@ -83,9 +79,7 @@
       },
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', parameters('namePrefix'), 'storage')]",
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'nic', copyindex())]",
-        "[concat('Microsoft.Compute/availabilitySets/', parameters('namePrefix'), 'avset')]"
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'nic', copyindex())]"        
       ],
       "properties": {
         "availabilitySet": {

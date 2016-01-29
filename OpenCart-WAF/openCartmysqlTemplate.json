@@ -34,11 +34,7 @@
         "displayName": "NIC"
       },
       "name": "[concat(parameters('NamePrefix'),'nic')]",
-      "location": "[parameters('location')]",      
-      "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', parameters('namePrefix'), 'lb')]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('namePrefix'),'nsg')]"
-      ],
+      "location": "[parameters('location')]",
       "properties": {
         "networkSecurityGroup": {
           "id": "[resourceId('Microsoft.Network/networkSecurityGroups/', concat(parameters('namePrefix'),'nsg'))]"
@@ -74,10 +70,8 @@
       },
       "name": "[concat(parameters('namePrefix'), 'sql')]",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', parameters('namePrefix'),'storage')]",
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'nic')]",
-        "[concat('Microsoft.Compute/availabilitySets/', parameters('namePrefix'),'avset')]"
+      "dependsOn": [        
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'nic')]"
       ],
       "properties": {
         "availabilitySet": {
