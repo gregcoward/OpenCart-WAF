@@ -55,6 +55,56 @@
       "metadata": {
         "description": "Virtual Machine instance size."
       }
+    },
+    "licenseToken1": {
+      "type": "string"
+    },
+    "licenseToken2": {
+      "type": "string"
+    },
+    "applicationType": {
+      "type": "string",
+      "metadata": {
+        "description": "Is your application running on a Linux OS or a Windows OS?"
+      },
+      "defaultValue": "Linux",
+      "allowedValues": [
+        "Linux",
+        "Windows"
+      ]
+    },
+    "blockingLevel": {
+      "type": "string",
+      "metadata": {
+        "description": "Please select how aggressive you would like the blocking level of this WAF to be.  Remember that the more aggressive the blocking level, the more potential there is for false-positives that the WAF might detect."
+      },
+      "defaultValue": "Medium",
+      "allowedValues": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    "applicationCertificate": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The path to the SSL certificate file. (Optional)"
+      }
+    },
+    "applicationKey": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The path to the SSL key file. (Optional)"
+      }
+    },
+    "applicationChain": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The path to the SSL chain file. (Optional)"
+      }
     }
   },
   "variables": {
@@ -321,9 +371,9 @@
     {
       "apiVersion": "2015-01-01",
       "name": "opencartmysqltemplate",
-      "type": "Microsoft.Resources/deployments",      
+      "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', variables('lbName'))]"       
+        "[concat('Microsoft.Network/loadBalancers/', variables('lbName'))]"
       ],
       "properties": {
         "mode": "incremental",
@@ -336,7 +386,7 @@
           "location": { "value": "[parameters('location')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "adminPassword": {"value": "[parameters('adminPassword')]"}
+          "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
       }
     },
@@ -359,6 +409,35 @@
           "vmSize": { "value": "[parameters('vmSize')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" }
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-01-01",
+      "name": "openCartWAFTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/openCartWebTemplate"
+      ],
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartWAFTemplate.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "namePrefix": { "value": "[parameters('namePrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "adminUsername": { "value": "[parameters('adminUsername')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "licenseToken1": { "value": "[parameters('licenseToken1')]" },
+          "licenseToken2": { "value": "[parameters('licenseToken2')]" },
+          "applicationAddress": { "value": "[reference('Microsoft.Network/publicIPAddresses',parameters('namePrefix')).ipAddress]" },
+          "applicationType": { "value": "[parameters('applicationType')]" },
+          "blockingLevel": { "value": "[parameters('blockingLevel')]" },
+          "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
+          "applicationKey": { "value": "[parameters('applicationKey')]" },
+          "applicationChain": { "value": "[parameters('applicationChain')]" }
         }
       }
     }

@@ -25,15 +25,19 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
+    <None Include="azuresecurity.sh" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
     <Content Include="azuredeploy.json" />
     <None Include="mysql_startup_script.sh" />
     <None Include="opencart-2.0.1.1.zip" />
+    <None Include="openCartSlave-WAFTemplate.json" />
+    <None Include="openCartWAFTemplate.json" />
     <None Include="openCartWebTemplate.json" />
     <None Include="openCartmysqlTemplate.json" />
     <None Include="README.md" />
+    <None Include="start.sh" />
     <None Include="startup_script.sh" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
