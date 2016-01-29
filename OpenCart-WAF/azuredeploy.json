@@ -208,21 +208,6 @@
     }
   ],
   "outputs": {
-    "App-URL": {
-      "type": "string",
-      "value": "[concat('http://',reference(variables('publicIPAddressID')).dnsSettings.fqdn)]"
-    },
-    "MySQL-SSH": {
-      "type": "string",
-      "value": "[concat(reference(variables('publicIPAddressID')).dnsSettings.fqdn,' ',8024)]"
-    },
-    "Webserver1-SSH": {
-      "type": "string",
-      "value": "[concat(reference(variables('publicIPAddressID')).dnsSettings.fqdn,' ',8022)]"
-    },
-    "Webserver2-SSH": {
-      "type": "string",
-      "value": "[concat(reference(variables('publicIPAddressID')).dnsSettings.fqdn,' ',8023)]"
-    }
+    
   }
 }
