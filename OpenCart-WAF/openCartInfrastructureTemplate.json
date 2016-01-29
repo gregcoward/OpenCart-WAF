@@ -274,7 +274,7 @@
   "outputs": {
     "appipaddress": {
       "type": "string",
-      "value": "[reference(variables('publicIPAddressID').ipAddress)]"
+      "value": "[reference(concat('Microsoft.Network/publicIPAddresses', parameters('namePrefix')).ipAddress)]"
     }
   }
 }
