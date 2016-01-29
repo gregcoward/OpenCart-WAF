@@ -449,13 +449,6 @@
     }
   ],
   "outputs": {
-    "WAF-GUI-URL": {
-      "type": "string",
-      "value": "[concat('https://',reference(variables('publicIPID')).dnsSettings.fqdn,':8443')]"
-    },
-    "WAF-SSH-URL": {
-      "type": "string",
-      "value": "[concat(reference(variables('publicIPID')).dnsSettings.fqdn,' ',8022)]"
-    }
+    
   }
 }
