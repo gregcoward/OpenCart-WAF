@@ -274,7 +274,7 @@
   "outputs": {
     "appipaddress": {
       "type": "string",
-      "value": "[reference(parameters('namePrefix').ipAddress)]"
+      "value": "[reference(parameters('namePrefix')).ipAddress]"
     }
   }
 }
