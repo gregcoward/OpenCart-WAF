@@ -321,10 +321,7 @@
     {
       "apiVersion": "2015-01-01",
       "name": "opencartmysqltemplate",
-      "type": "Microsoft.Resources/deployments",
-      "tags": {
-        "displayName": "openCartMySQLTemplate"
-      },
+      "type": "Microsoft.Resources/deployments",      
       "dependsOn": [
         "[concat('Microsoft.Network/loadBalancers/', variables('lbName'))]"       
       ],
@@ -347,9 +344,6 @@
       "apiVersion": "2015-01-01",
       "name": "openCartWebTemplate",
       "type": "Microsoft.Resources/deployments",
-      "tags": {
-        "displayName": "openCartWebServerTemplate"
-      },
       "dependsOn": [
         "Microsoft.Resources/deployments/opencartmysqltemplate"
       ],
