@@ -438,7 +438,7 @@
           "adminUsername": { "value": "[parameters('adminUsername')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "licenseToken2": { "value": "[parameters('licenseToken2')]" },
-          "applicationAddress": { "value": "[reference('Microsoft.Network/publicIPAddresses',parameters('namePrefix')).ipAddress]" },
+          "applicationAddress": { "value": "[parameters('applicationAddress')]" },
           "applicationType": { "value": "[parameters('applicationType')]" },
           "blockingLevel": { "value": "[parameters('blockingLevel')]" },
           "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
