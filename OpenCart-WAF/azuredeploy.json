@@ -194,7 +194,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "licenseToken1": { "value": "[parameters('licenseToken1')]" },
           "licenseToken2": { "value": "[parameters('licenseToken2')]" },
-          "applicationAddress": { "value": "[reference(concat('Microsoft.Network/publicIPAddresses',parameters('namePrefix')), '2015-01-01').properties.ipAddress]" },
+          "applicationAddress": { "value": "[reference(concat('Microsoft.Network/publicIPAddresses/',parameters('namePrefix')), '2015-01-01').properties.ipAddress]" },
           "applicationType": { "value": "Linux" },
           "blockingLevel": { "value": "[parameters('blockingLevel')]" },
           "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
