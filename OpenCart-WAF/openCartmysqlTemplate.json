@@ -19,9 +19,9 @@
     }
   },
   "variables": {
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('namePrefix'),'-vnet'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',concat(parameters('namePrefix'),'-subnet'))]",
-    "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'),'-lb'))]",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('namePrefix'),'vnet'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',concat(parameters('namePrefix'),'subnet'))]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'),'lb'))]",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
     "imageSKU": "14.04.2-LTS"
