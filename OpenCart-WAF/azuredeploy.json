@@ -62,17 +62,6 @@
     "licenseToken2": {
       "type": "string"
     },
-    "applicationType": {
-      "type": "string",
-      "metadata": {
-        "description": "Is your application running on a Linux OS or a Windows OS?"
-      },
-      "defaultValue": "Linux",
-      "allowedValues": [
-        "Linux",
-        "Windows"
-      ]
-    },
     "blockingLevel": {
       "type": "string",
       "metadata": {
@@ -433,7 +422,7 @@
           "licenseToken1": { "value": "[parameters('licenseToken1')]" },
           "licenseToken2": { "value": "[parameters('licenseToken2')]" },
           "applicationAddress": { "value": "[reference('Microsoft.Network/publicIPAddresses',parameters('namePrefix')).ipAddress]" },
-          "applicationType": { "value": "[parameters('applicationType')]" },
+          "applicationType": { "value": "Linux" },
           "blockingLevel": { "value": "[parameters('blockingLevel')]" },
           "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
           "applicationKey": { "value": "[parameters('applicationKey')]" },
