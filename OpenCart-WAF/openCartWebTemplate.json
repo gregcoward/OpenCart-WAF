@@ -79,7 +79,7 @@
       },
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'nic', copyindex())]"        
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'webnic', copyindex())]"        
       ],
       "properties": {
         "availabilitySet": {
@@ -112,7 +112,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namePrefix'),'nic',copyindex()))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namePrefix'),'webnic',copyindex()))]"
             }
           ]
         },
