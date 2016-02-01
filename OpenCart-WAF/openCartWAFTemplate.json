@@ -232,7 +232,7 @@
       "name": "openCartWAFTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/extensions/',variables('wafNamePrefix'),0,'/start')]"
+        "[concat('Microsoft.Compute/virtualMachines/',variables('wafNamePrefix'),0,'/extensions/start')]"
       ],
       "properties": {
         "mode": "incremental",
