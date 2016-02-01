@@ -11,7 +11,7 @@
   },
   "variables": {
     "storageAccountType": "Standard_LRS",
-    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('namePrefix'))]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',concat(parameters('namePrefix'), 'pip'))]",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'), 'lb'))]"
   },
   "resources": [
