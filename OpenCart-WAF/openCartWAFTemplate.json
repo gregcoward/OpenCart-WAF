@@ -26,7 +26,7 @@
     "applicationType": {
       "type": "string"
     },
-    "blockingLevel": {
+    "securityBlockingLevel": {
       "type": "string"
     },
     "applicationCertificate": {
