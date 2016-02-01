@@ -146,7 +146,7 @@
       },
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses',parameters('namePrefix'), 'pip')]"
+        "[concat('Microsoft.Network/publicIPAddresses/',parameters('namePrefix'), 'pip')]"
       ],
       "properties": {
         "frontendIPConfigurations": [
