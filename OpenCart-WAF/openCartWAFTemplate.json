@@ -153,7 +153,7 @@
         "displayName": "Master WAF"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicNamePrefix'), 0)]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicNamePrefix'), 'waf', 0)]"
       ],
       "plan": {
         "name": "f5-bigip-virtual-edition-best-byol",
@@ -191,7 +191,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('nicNamePrefix')),0)]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicNamePrefix'),'waf',0))]"
             }
           ]
         },
