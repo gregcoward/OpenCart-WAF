@@ -104,7 +104,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namePrefix'),'nic'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namePrefix'),'sqlnic'))]"
             }
           ]
         },
