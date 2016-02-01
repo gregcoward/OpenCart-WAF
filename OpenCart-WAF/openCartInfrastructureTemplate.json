@@ -10,21 +10,9 @@
     }
   },
   "variables": {
-    "lbName": "[concat(parameters('namePrefix'), 'lb')]",
-    "avSetName": "[concat(parameters('namePrefix'), 'avset')]",
-    "virtualNetworkName": "[concat(parameters('namePrefix'), 'vnet')]",
-    "vnetAddressPrefix": "10.10.0.0/16",
-    "subnetName": "[concat(parameters('namePrefix'), 'subnet')]",
-    "subnetPrefix": "10.10.1.0/24",
     "storageAccountType": "Standard_LRS",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables ('subnetName'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('namePrefix'))]",
-    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('lbName'))]",
-    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]",
-    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]",
-    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
-    "lbProbe443ID": "[concat(variables('lbID'),'/probes/tcpProbe443')]"
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'), 'lb'))]"
   },
   "resources": [
     {
@@ -42,7 +30,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('virtualNetworkName')]",
+      "name": "[concat(parameters('namePrefix'), 'vnet')]",
       "location": "[parameters('location')]",
       "tags": {
         "displayName": "VirtualNetwork"
@@ -50,14 +38,20 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "[variables('vnetAddressPrefix')]"
+            "10.10.0.0/16"
           ]
         },
         "subnets": [
           {
-            "name": "[variables('subnetName')]",
+            "name": "subnetsrv",
             "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]"
+              "addressPrefix": "10.10.1.0/24"
+            }
+          },
+          {
+            "name": "subnetwaf",
+            "properties": {
+              "addressPrefix": "10.10.2.0/24"
             }
           }
         ]
@@ -68,7 +62,7 @@
       "tags": {
         "displayName": "Availability Set"
       },
-      "name": "[variables('avSetName')]",
+      "name": "[concat(parameters('namePrefix'), 'avset')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "properties": { }
@@ -79,7 +73,7 @@
       "tags": {
         "displayName": "Public IP Address"
       },
-      "name": "[parameters('namePrefix')]",
+      "name": "[concat(parameters('namePrefix'), 'pip')]",
       "location": "[parameters('location')]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
@@ -145,7 +139,7 @@
     },
     {
       "apiVersion": "2015-05-01-preview",
-      "name": "[variables('lbName')]",
+      "name": "[concat(parameters('namePrefix'), 'lb')]",
       "type": "Microsoft.Network/loadBalancers",
       "tags": {
         "displayName": "Azure Load Balancer"
@@ -175,7 +169,7 @@
             "name": "ssh-vm0",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[variables('frontEndIPConfigID')]"
+                "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
               },
               "protocol": "tcp",
               "frontendPort": 8022,
@@ -187,7 +181,7 @@
             "name": "ssh-vm1",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[variables('frontEndIPConfigID')]"
+                "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
               },
               "protocol": "tcp",
               "frontendPort": 8023,
@@ -199,7 +193,7 @@
             "name": "ssh-sql",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[variables('frontEndIPConfigID')]"
+                "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
               },
               "protocol": "tcp",
               "frontendPort": 8024,
@@ -213,10 +207,10 @@
             "name": "LBRule",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[variables('frontEndIPConfigID')]"
+                "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
               },
               "backendAddressPool": {
-                "id": "[variables('lbPoolID')]"
+                "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
               },
               "protocol": "tcp",
               "frontendPort": 80,
@@ -224,7 +218,7 @@
               "enableFloatingIP": false,
               "idleTimeoutInMinutes": 5,
               "probe": {
-                "id": "[variables('lbProbeID')]"
+                "id": "[concat(variables('lbID'),'/probes/tcpProbe')]"
               }
             }
           },
@@ -232,10 +226,10 @@
             "name": "LBRule443",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[variables('frontEndIPConfigID')]"
+                "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
               },
               "backendAddressPool": {
-                "id": "[variables('lbPoolID')]"
+                "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
               },
               "protocol": "tcp",
               "frontendPort": 443,
@@ -243,7 +237,7 @@
               "enableFloatingIP": false,
               "idleTimeoutInMinutes": 5,
               "probe": {
-                "id": "[variables('lbProbe443ID')]"
+                "id": "[concat(variables('lbID'),'/probes/tcpProbe443')]"
               }
             }
           }
@@ -271,11 +265,6 @@
       }
     }
   ],
-  "outputs": {
-    "publicIP": {
-      "type": "string",
-      "value": "[reference(parameters('namePrefix')).ipAddress]"
-    }
-
+  "outputs": {       
   }
 }

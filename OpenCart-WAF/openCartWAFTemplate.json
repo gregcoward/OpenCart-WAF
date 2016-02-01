@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "location": {
-      "type": "string"    
+      "type": "string"
     },
     "adminUsername": {
       "type": "string"
@@ -18,7 +18,7 @@
       "type": "string"
     },
     "licenseToken2": {
-      "type": "string"    
+      "type": "string"
     },
     "applicationAddress": {
       "type": "string"
@@ -44,82 +44,27 @@
     "applicationProtocols": "http;https",
     "applicationPorts": "80;443",
     "applicationFQDN": "[concat(parameters('namePrefix'),'.westus.cloudapp.azure.com')]",
-    "virtualNetworkName": "[concat(parameters('namePrefix'),'-vnet')]",
-    "vnetAddressPrefix": "10.10.0.0/16",
-    "subnetName": "[concat(parameters('namePrefix'),'-subnet')]",
     "numberOFWAFs": 2,
     "vmSize": "Standard_A2",
-    "subnetPrefix": "10.10.1.0/24",
-    "ipAddress": "10.10.1.",
     "nicNamePrefix": "[concat(parameters('namePrefix'),'-nic')]",
-    "loadBalancerName": "[concat(parameters('namePrefix'),'-alb')]",
-    "availabilitySetName": "[concat(parameters('namePrefix'),'-avset')]",
-    "newStorageAccountName": "[concat(parameters('namePrefix'),'stor')]",
+    "availabilitySetID": "[resourceId('Microsoft.Compute/availabilitySets',concat(parameters('namePrefix'), 'avset'))]",
+    "newStorageAccountName": "[concat(parameters('namePrefix'),'storage')]",
     "wafNamePrefix": "[concat(parameters('namePrefix'),'-waf')]",
     "nsgID": "[resourceId('Microsoft.Network/networkSecurityGroups/',concat(parameters('namePrefix'),'-nsg'))]",
-    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'), 'lb'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
-    "guiMgtID": "[concat(variables('lbID'),'/inboundNatRules/guimgt')]",
-    "sshMgtID": "[concat(variables('lbID'),'/inboundNatRules/sshmgt')]",
-    "publicIPID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('namePrefix'))]",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]"
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('namePrefix'), 'vnet'))]",
+    "subnetID": "[concat(variables('vnetID'),'/subnets/subnetwaf')]"
   },
   "resources": [
     {
       "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[parameters('namePrefix')]",
-      "location": "[parameters('location')]",
-      "tags": {
-        "displayName": "PublicIPAddress"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('namePrefix')]"
-        }
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('virtualNetworkName')]",
-      "location": "[parameters('location')]",
-      "tags": {
-        "displayName": "VirtualNetwork"
-      },
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('vnetAddressPrefix')]"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('subnetName')]",
-            "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('nicNamePrefix'),copyindex())]",
+      "name": "[concat(variables('nicNamePrefix'),'waf',copyindex())]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "NetworkInterface"
+        "displayName": "WAF Network Interface"
       },
-      "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
-        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]",
-        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'),'/inboundNatRules/guimgt',copyindex())]",
-        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'),'/inboundNatRules/sshmgt',copyindex())]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('namePrefix'),'-nsg')]"
-      ],
       "copy": {
         "count": "[variables('numberOFWAFs')]",
         "name": "niccopy"
@@ -130,12 +75,12 @@
         },
         "ipConfigurations": [
           {
-            "name": "ipconfig1",
+            "name": "wafipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat(variables('ipAddress'),add(4,copyindex()))]",
+              "privateIPAddress": "[concat('10.10.2.',add(4,copyindex()))]",
               "subnet": {
-                "id": "[variables('subnetRef')]"
+                "id": "[variables('subnetID')]"
               },
               "loadBalancerBackendAddressPools": [
                 {
@@ -157,139 +102,16 @@
     },
     {
       "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[concat(parameters('namePrefix'), '-nsg')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "securityRules": [
-          {
-            "name": "mgt_rule",
-            "properties": {
-              "description": "",
-              "priority": 101,
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "443",
-              "protocol": "TCP",
-              "direction": "Inbound",
-              "access": "Allow"
-            }
-          },
-          {
-            "name": "ssh_rule",
-            "properties": {
-              "description": "",
-              "priority": 102,
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "22",
-              "protocol": "TCP",
-              "direction": "Inbound",
-              "access": "Allow"
-            }
-          },
-          {
-            "name": "app_rule_880",
-            "properties": {
-              "description": "",
-              "priority": 103,
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "880",
-              "protocol": "TCP",
-              "direction": "Inbound",
-              "access": "Allow"
-            }
-          },
-          {
-            "name": "app_rule_8444",
-            "properties": {
-              "description": "",
-              "priority": 104,
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "8444",
-              "protocol": "TCP",
-              "direction": "Inbound",
-              "access": "Allow"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', parameters('namePrefix'))]"
-      ],
-      "location": "[parameters('location')]",
-      "name": "[variables('loadBalancerName')]",
-      "properties": {
-        "frontendIPConfigurations": [
-          {
-            "name": "loadBalancerFrontEnd",
-            "properties": {
-              "publicIPAddress": {
-                "id": "[variables('publicIPID')]"
-              }
-            }
-          }
-        ],
-        "backendAddressPools": [
-          {
-            "name": "loadBalancerBackEnd"
-          }
-        ],
-        "loadBalancingRules": [
-          {
-            "Name": "lbrule",
-            "properties": {
-              "frontendIPConfiguration": {
-                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('loadBalancerName')), '/frontendIpConfigurations/loadBalancerFrontEnd')]"
-              },
-              "backendAddressPool": {
-                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('loadBalancerName')), '/backendAddressPools/loadBalancerBackEnd')]"
-              },
-              "probe": {
-                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('loadBalancerName')), '/probes/lbprobe')]"
-              },
-              "protocol": "Tcp",
-              "frontendPort": 80,
-              "backendPort": 880,
-              "idleTimeoutInMinutes": 15
-            }
-          }
-        ],
-        "probes": [
-          {
-            "properties": {
-              "protocol": "Tcp",
-              "port": 880,
-              "intervalInSeconds": 15,
-              "numberOfProbes": 2
-            },
-            "name": "lbprobe"
-          }
-        ]
-      },
-      "type": "Microsoft.Network/loadBalancers"
-    },
-    {
-      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/loadBalancers/inboundNatRules",
-      "name": "[concat(variables('loadBalancerName'),'/guimgt', copyIndex())]",
+      "tags": {
+        "displayName": "GUI MGMT inboundNatRule"
+      },
+      "name": "[concat(parameters('namePrefix'), 'lb/guimgt', copyIndex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "lbNatLoop",
         "count": "[variables('numberOFWAFs')]"
       },
-      "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
-      ],
       "properties": {
         "frontendIPConfiguration": {
           "id": "[variables('frontEndIPConfigID')]"
@@ -303,15 +125,15 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/loadBalancers/inboundNatRules",
-      "name": "[concat(variables('loadBalancerName'),'/sshmgt', copyIndex())]",
+      "tags": {
+        "displayName": "SSH MGMT inboundNatRule"
+      },
+      "name": "[concat(parameters('namePrefix'), 'lb/sshmgt', copyIndex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "lbNatLoop",
         "count": "[variables('numberOFWAFs')]"
       },
-      "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
-      ],
       "properties": {
         "frontendIPConfiguration": {
           "id": "[variables('frontEndIPConfigID')]"
@@ -324,12 +146,6 @@
     },
     {
       "apiVersion": "2015-06-15",
-      "location": "[parameters('location')]",
-      "name": "[variables('availabilitySetName')]",
-      "type": "Microsoft.Compute/availabilitySets"
-    },
-    {
-      "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('wafNamePrefix'),0)]",
       "location": "[parameters('location')]",
@@ -337,9 +153,7 @@
         "displayName": "Master WAF"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicNamePrefix'), 0)]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('newStorageAccountName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicNamePrefix'), 0)]"
       ],
       "plan": {
         "name": "f5-bigip-virtual-edition-best-byol",
@@ -348,7 +162,7 @@
       },
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets',variables('availabilitySetName'))]"
+          "id": "[variables('availabilitySetID')]"
         },
         "hardwareProfile": {
           "vmSize": "[variables('vmSize')]"
@@ -390,16 +204,10 @@
       }
     },
     {
-      "name": "[variables('newStorageAccountName')]",
-      "type": "Microsoft.Storage/storageAccounts",
-      "location": "[parameters('location')]",
-      "apiVersion": "2015-05-01-preview",
-      "properties": {
-        "accountType": "Standard_LRS"
-      }
-    },
-    {
       "type": "Microsoft.Compute/virtualMachines/extensions",
+      "tags": {
+        "displayName": "BIG-IP Starup Script"
+      },
       "name": "[concat(variables('wafNamePrefix'),0,'/start')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
@@ -415,7 +223,7 @@
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/azuresecurity.sh",
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh"
           ],
-          "commandToExecute": "[concat('bash start.sh ','true',';',concat(variables('wafNamePrefix'),0),';',concat(variables('ipAddress'),4),';',parameters('adminPassword'),';',parameters('licenseToken1'),';',toLower(variables('applicationName')),' 880;8444 ',variables('applicationProtocols'),' ',parameters('applicationAddress'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('blockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain'))]"
+          "commandToExecute": "[concat('bash start.sh ','true',';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),';',parameters('adminPassword'),';',parameters('licenseToken1'),';',toLower(variables('applicationName')),' 880;8444 ',variables('applicationProtocols'),' ',parameters('applicationAddress'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('blockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain'))]"
         }
       }
     },
@@ -449,6 +257,6 @@
     }
   ],
   "outputs": {
-    
+
   }
 }

@@ -41,20 +41,17 @@
     "applicationProtocols": "http;https",
     "applicationPorts": "80;443",
     "applicationFQDN": "[concat(parameters('namePrefix'),'.westus.cloudapp.azure.com')]",
-    "vnetAddressPrefix": "10.10.0.0/16",
+    "numberOFWAFs": 2,
     "vmSize": "Standard_A2",
-    "ipAddress": "10.10.1.",
     "nicNamePrefix": "[concat(parameters('namePrefix'),'-nic')]",
-    "loadBalancerName": "[concat(parameters('namePrefix'),'-alb')]",
-    "availabilitySetName": "[concat(parameters('namePrefix'),'-avset')]",
-    "newStorageAccountName": "[concat(parameters('namePrefix'),'stor')]",
+    "availabilitySetID": "[resourceId('Microsoft.Compute/availabilitySets',concat(parameters('namePrefix'), 'avset'))]",
+    "newStorageAccountName": "[concat(parameters('namePrefix'),'storage')]",
     "wafNamePrefix": "[concat(parameters('namePrefix'),'-waf')]",
     "nsgID": "[resourceId('Microsoft.Network/networkSecurityGroups/',concat(parameters('namePrefix'),'-nsg'))]",
-    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'), 'lb'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
-    "guiMgtID": "[concat(variables('lbID'),'/inboundNatRules/guimgt')]",
-    "sshMgtID": "[concat(variables('lbID'),'/inboundNatRules/sshmgt')]",
-    "publicIPID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('namePrefix'))]"
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('namePrefix'), 'vnet'))]",
+    "subnetID": "[concat(variables('vnetID'),'/subnets/subnetwaf')]"
   },
   "resources": [
     {
@@ -72,7 +69,7 @@
       },
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets',variables('availabilitySetName'))]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',variables('availabilitySetID'))]"
         },
         "hardwareProfile": {
           "vmSize": "[variables('vmSize')]"
@@ -133,19 +130,11 @@
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/azuresecurity.sh",
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh"
           ],
-          "commandToExecute": "[concat('bash start.sh ','false',';',concat(variables('wafNamePrefix'),add(copyindex(),1)),';',concat(variables('ipAddress'),add(add(4,copyindex()),1),';',parameters('adminPassword'),';',parameters('licenseToken2'),';',toLower(variables('applicationName')),';',concat(variables('wafNamePrefix'),0),';',concat(variables('ipAddress'),4),' 880;8444 ',variables('applicationProtocols'),' ',parameters('applicationAddress'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('blockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain')))]"
+          "commandToExecute": "[concat('bash start.sh ','false',';',concat(variables('wafNamePrefix'),add(copyindex(),1)),';',concat('10.10.2.',add(add(4,copyindex()),1),';',parameters('adminPassword'),';',parameters('licenseToken2'),';',toLower(variables('applicationName')),';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),' 880;8444 ',variables('applicationProtocols'),' ',parameters('applicationAddress'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('blockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain')))]"
         }
       }
     }
   ],
-  "outputs": {
-    "WAF-GUI-URL": {
-      "type": "string",
-      "value": "[concat('https://',reference(variables('publicIPID')).dnsSettings.fqdn,':8443')]"
-    },
-    "WAF-SSH-URL": {
-      "type": "string",
-      "value": "[concat(reference(variables('publicIPID')).dnsSettings.fqdn,' ',8022)]"
-    }
+  "outputs": {    
   }
 }
