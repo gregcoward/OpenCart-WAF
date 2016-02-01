@@ -139,7 +139,7 @@
           "id": "[variables('frontEndIPConfigID')]"
         },
         "protocol": "tcp",
-        "frontendPort": "[copyIndex(8022)]",
+        "frontendPort": "[copyIndex(8025)]",
         "backendPort": 22,
         "enableFloatingIP": false
       }
