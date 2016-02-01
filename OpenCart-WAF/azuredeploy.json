@@ -179,7 +179,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "licenseToken1": { "value": "[parameters('licenseToken1')]" },
           "licenseToken2": { "value": "[parameters('licenseToken2')]" },
-          "applicationAddress": { "value": "[reference('opencartmysqltemplate').outputs.publicIP]" },
+          "applicationAddress": { "value": "[reference('openCartWebTemplate').outputs.publicIP]" },
           "applicationType": { "value": "Linux" },
           "securityBlockingLevel": { "value": "[parameters('securityBlockingLevel')]" },
           "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
