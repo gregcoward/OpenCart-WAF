@@ -70,8 +70,8 @@
       },
       "name": "[concat(parameters('namePrefix'), 'sql')]",
       "location": "[parameters('location')]",
-      "dependsOn": [        
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'nic')]"
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namePrefix'),'sqlnic')]"
       ],
       "properties": {
         "availabilitySet": {
