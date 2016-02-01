@@ -20,7 +20,7 @@
   },
   "variables": {
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('namePrefix'),'vnet'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',concat(parameters('namePrefix'),'subnet'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/','subnetsrv')]",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'),'lb'))]",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
