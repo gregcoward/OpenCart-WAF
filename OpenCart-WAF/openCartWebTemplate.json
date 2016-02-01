@@ -33,7 +33,7 @@
       "tags": {
         "displayName": "NIC"
       },
-      "name": "[concat(parameters('namePrefix'), 'nic',copyindex())]",
+      "name": "[concat(parameters('namePrefix'), 'webnic',copyindex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "nicLoop",
