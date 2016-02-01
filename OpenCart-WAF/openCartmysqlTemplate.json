@@ -143,7 +143,7 @@
   "outputs": {
     "publicIP": {
       "type": "string",
-      "value": "[reference(concat('Microsoft.Network/publicIPAddresses/',parameters('namePrefix'), 'pip')).ipAddress]"
+      "value": "[reference(concat('Microsoft.Network/publicIPAddresses/',parameters('namePrefix'), 'pip'), '2015-06-15').ipAddress]"
     }
   }
 }
