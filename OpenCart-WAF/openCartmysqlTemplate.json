@@ -141,9 +141,5 @@
     }
   ],
   "outputs": {
-    "publicIP": {
-      "type": "string",
-      "value": "[reference(concat('Microsoft.Network/publicIPAddresses/',parameters('namePrefix'), 'pip'), '2015-05-01-preview').properties.ipAddress]"
-    }
   }
 }
