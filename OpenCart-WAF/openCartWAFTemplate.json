@@ -62,6 +62,10 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicNamePrefix'),'waf',copyindex())]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        [ "concat(variables('lbID')", "/inboundNatRules/", "guimgt", "copyIndex())" ],
+        [ "concat(variables('lbID')", "/inboundNatRules/", "sshmgt", "copyIndex())" ]
+      ],
       "tags": {
         "displayName": "WAF Network Interface"
       },
