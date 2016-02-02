@@ -63,8 +63,8 @@
       "name": "[concat(variables('nicNamePrefix'),'waf',copyindex())]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        [ "concat(variables('lbID')", "/inboundNatRules/", "guimgt", "copyIndex())" ],
-        [ "concat(variables('lbID')", "/inboundNatRules/", "sshmgt", "copyIndex())" ]
+        "[concat('Microsoft.Network/loadBalancers/inboundNatRules/', parameters('namePrefix'), 'lb/guimgt', copyIndex())]",
+        "[concat('Microsoft.Network/loadBalancers/inboundNatRules/', parameters('namePrefix'), 'lb/sshmgt', copyIndex())]"
       ],
       "tags": {
         "displayName": "WAF Network Interface"
