@@ -202,46 +202,6 @@
             }
           }
         ],
-        "loadBalancingRules": [
-          {
-            "name": "LBRule",
-            "properties": {
-              "frontendIPConfiguration": {
-                "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
-              },
-              "backendAddressPool": {
-                "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
-              },
-              "protocol": "tcp",
-              "frontendPort": 80,
-              "backendPort": 80,
-              "enableFloatingIP": false,
-              "idleTimeoutInMinutes": 5,
-              "probe": {
-                "id": "[concat(variables('lbID'),'/probes/tcpProbe')]"
-              }
-            }
-          },
-          {
-            "name": "LBRule443",
-            "properties": {
-              "frontendIPConfiguration": {
-                "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
-              },
-              "backendAddressPool": {
-                "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
-              },
-              "protocol": "tcp",
-              "frontendPort": 443,
-              "backendPort": 443,
-              "enableFloatingIP": false,
-              "idleTimeoutInMinutes": 5,
-              "probe": {
-                "id": "[concat(variables('lbID'),'/probes/tcpProbe443')]"
-              }
-            }
-          }
-        ],
         "probes": [
           {
             "name": "tcpProbe",

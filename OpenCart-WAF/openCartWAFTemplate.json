@@ -106,6 +106,56 @@
     },
     {
       "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+      "tags": {
+        "displayName": "WAF Load Balancing Rule 80"
+      },
+      "name": "[concat(parameters('namePrefix'), 'lb/wafLBRule80')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "frontendIPConfiguration": {
+          "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
+        },
+        "backendAddressPool": {
+          "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
+        },
+        "protocol": "tcp",
+        "frontendPort": 80,
+        "backendPort": 880,
+        "enableFloatingIP": false,
+        "idleTimeoutInMinutes": 5,
+        "probe": {
+          "id": "[concat(variables('lbID'),'/probes/tcpProbe')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+      "tags": {
+        "displayName": "WAF Load Balancing Rule 443"
+      },
+      "name": "[concat(parameters('namePrefix'), 'lb/wafLBRule443')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "frontendIPConfiguration": {
+          "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
+        },
+        "backendAddressPool": {
+          "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
+        },
+        "protocol": "tcp",
+        "frontendPort": 443,
+        "backendPort": 1443,
+        "enableFloatingIP": false,
+        "idleTimeoutInMinutes": 5,
+        "probe": {
+          "id": "[concat(variables('lbID'),'/probes/tcpProbe443')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/loadBalancers/inboundNatRules",
       "tags": {
         "displayName": "GUI MGMT inboundNatRule"
@@ -227,7 +277,7 @@
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/azuresecurity.sh",
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh"
           ],
-          "commandToExecute": "[concat('bash start.sh ','true',';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),';',parameters('adminPassword'),';',parameters('licenseToken1'),';',toLower(variables('applicationName')),' 880;8444 ',variables('applicationProtocols'),' ',parameters('applicationAddress'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('blockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain'))]"
+          "commandToExecute": "[concat('bash start.sh ','true',';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),';',parameters('adminPassword'),';',parameters('licenseToken1'),';',toLower(variables('applicationName')),' 880;8444 ',variables('applicationProtocols'),' ',parameters('applicationAddress'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('securityBlockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain'))]"
         }
       }
     },
@@ -252,7 +302,7 @@
           "licenseToken2": { "value": "[parameters('licenseToken2')]" },
           "applicationAddress": { "value": "[parameters('applicationAddress')]" },
           "applicationType": { "value": "[parameters('applicationType')]" },
-          "blockingLevel": { "value": "[parameters('blockingLevel')]" },
+          "blockingLevel": { "value": "[parameters('SecurityBlockingLevel')]" },
           "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
           "applicationKey": { "value": "[parameters('applicationKey')]" },
           "applicationChain": { "value": "[parameters('applicationChain')]" }
