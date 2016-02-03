@@ -23,7 +23,7 @@
     "applicationType": {
       "type": "string"
     },
-    "blockingLevel": {
+    "SecurityBlockingLevel": {
       "type": "string"
     },
     "applicationCertificate": {
@@ -43,11 +43,11 @@
     "applicationFQDN": "[concat(parameters('namePrefix'),'.westus.cloudapp.azure.com')]",
     "numberOFWAFs": 2,
     "vmSize": "Standard_A2",
-    "nicNamePrefix": "[concat(parameters('namePrefix'),'-nic')]",
+    "nicNamePrefix": "[concat(parameters('namePrefix'),'nic')]",
     "availabilitySetID": "[resourceId('Microsoft.Compute/availabilitySets',concat(parameters('namePrefix'), 'avset'))]",
     "newStorageAccountName": "[concat(parameters('namePrefix'),'storage')]",
     "wafNamePrefix": "[concat(parameters('namePrefix'),'-waf')]",
-    "nsgID": "[resourceId('Microsoft.Network/networkSecurityGroups/',concat(parameters('namePrefix'),'-nsg'))]",
+    "nsgID": "[resourceId('Microsoft.Network/networkSecurityGroups/',concat(parameters('namePrefix'),'nsg'))]",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(parameters('namePrefix'), 'lb'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('namePrefix'), 'vnet'))]",
@@ -130,7 +130,7 @@
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/azuresecurity.sh",
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh"
           ],
-          "commandToExecute": "[concat('bash start.sh ','false',';',concat(variables('wafNamePrefix'),add(copyindex(),1)),';',concat('10.10.2.',add(add(4,copyindex()),1),';',parameters('adminPassword'),';',parameters('licenseToken2'),';',toLower(variables('applicationName')),';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),' 880;8444 ',variables('applicationProtocols'),' ',parameters('applicationAddress'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('blockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain')))]"
+          "commandToExecute": "[concat('bash start.sh ','false',';',concat(variables('wafNamePrefix'),add(copyindex(),1)),';',concat('10.10.2.',add(add(4,copyindex()),1),';',parameters('adminPassword'),';',parameters('licenseToken2'),';',toLower(variables('applicationName')),';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),' 880;8444 ',variables('applicationProtocols'),' ',parameters('applicationAddress'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('SecurityBlockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain')))]"
         }
       }
     }
