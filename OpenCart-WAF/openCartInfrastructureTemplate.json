@@ -275,7 +275,7 @@
                   },
                   "protocol": "Tcp",
                   "frontendPort": 8027,
-                  "backendPort": 22,
+                  "backendPort": 443,
                   "enableFloatingIP": false
                 }
               },
@@ -287,7 +287,7 @@
                   },
                   "protocol": "Tcp",
                   "frontendPort": 8028,
-                  "backendPort": 22,
+                  "backendPort": 443,
                   "enableFloatingIP": false
                 }
               }
