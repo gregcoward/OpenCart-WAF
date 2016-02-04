@@ -194,7 +194,7 @@
         "[concat('Microsoft.Compute/virtualMachines/',variables('wafNamePrefix'),0,'/extensions/start')]"
       ],
       "properties": {
-        "mode": "incremental",
+        "mode": "Incremental",
         "templateLink": {
           "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartSlave-WAFTemplate.json",
           "contentVersion": "1.0.0.0"

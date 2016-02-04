@@ -101,7 +101,7 @@
               "sourcePortRange": "*",
               "destinationAddressPrefix": "*",
               "destinationPortRange": "443",
-              "protocol": "TCP",
+              "protocol": "Tcp",
               "direction": "Inbound",
               "access": "Allow"
             }
@@ -115,7 +115,7 @@
               "sourcePortRange": "*",
               "destinationAddressPrefix": "*",
               "destinationPortRange": "80",
-              "protocol": "TCP",
+              "protocol": "Tcp",
               "direction": "Inbound",
               "access": "Allow"
             }
@@ -129,7 +129,7 @@
               "sourcePortRange": "*",
               "destinationAddressPrefix": "*",
               "destinationPortRange": "22",
-              "protocol": "TCP",
+              "protocol": "Tcp",
               "direction": "Inbound",
               "access": "Allow"
             }
@@ -165,46 +165,47 @@
           }
         ],
         "loadBalancingRules": [
-          {
-            "name": "appLBRule80",
-            "location": "[parameters('location')]",
-            "properties": {
-              "frontendIPConfiguration": {
-                "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
-              },
-              "backendAddressPool": {
-                "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
-              },
-              "protocol": "tcp",
-              "frontendPort": 80,
-              "backendPort": 880,
-              "enableFloatingIP": false,
-              "idleTimeoutInMinutes": 5,
-              "probe": {
-                "id": "[concat(variables('lbID'),'/probes/tcpProbe')]"
-              },
-              {
-                "name": "appLBRule443",
-                "location": "[parameters('location')]",
-                "properties": {
-                  "frontendIPConfiguration": {
-                    "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
-                  },
-                  "backendAddressPool": {
-                    "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
-                  },
-                  "protocol": "tcp",
-                  "frontendPort": 443,
-                  "backendPort": 8443,
-                  "enableFloatingIP": false,
-                  "idleTimeoutInMinutes": 5,
-                  "probe": {
-                    "id": "[concat(variables('lbID'),'/probes/tcpProbe443')]"
-                  }
+            {
+              "name": "appLBRule80",
+              "location": "[parameters('location')]",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
+                },
+                "backendAddressPool": {
+                  "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
+                },
+                "protocol": "Tcp",
+                "frontendPort": 80,
+                "backendPort": 880,
+                "enableFloatingIP": false,
+                "idleTimeoutInMinutes": 5,
+                "probe": {
+                  "id": "[concat(variables('lbID'),'/probes/tcpProbe')]"
                 }
               }
             },
-
+            {
+              "name": "appLBRule443",
+              "location": "[parameters('location')]",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
+                },
+                "backendAddressPool": {
+                  "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
+                },
+                "protocol": "Tcp",
+                "frontendPort": 443,
+                "backendPort": 8443,
+                "enableFloatingIP": false,
+                "idleTimeoutInMinutes": 5,
+                "probe": {
+                  "id": "[concat(variables('lbID'),'/probes/tcpProbe443')]"
+                }
+              }
+            }
+          ],
             "inboundNatRules": [
               {
                 "name": "ssh-vm0",
@@ -212,7 +213,7 @@
                   "frontendIPConfiguration": {
                     "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
                   },
-                  "protocol": "tcp",
+                  "protocol": "Tcp",
                   "frontendPort": 8022,
                   "backendPort": 22,
                   "enableFloatingIP": false
@@ -224,7 +225,7 @@
                   "frontendIPConfiguration": {
                     "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
                   },
-                  "protocol": "tcp",
+                  "protocol": "Tcp",
                   "frontendPort": 8023,
                   "backendPort": 22,
                   "enableFloatingIP": false
@@ -236,7 +237,7 @@
                   "frontendIPConfiguration": {
                     "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
                   },
-                  "protocol": "tcp",
+                  "protocol": "Tcp",
                   "frontendPort": 8024,
                   "backendPort": 22,
                   "enableFloatingIP": false
@@ -248,7 +249,7 @@
                   "frontendIPConfiguration": {
                     "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
                   },
-                  "protocol": "tcp",
+                  "protocol": "Tcp",
                   "frontendPort": 8025,
                   "backendPort": 22,
                   "enableFloatingIP": false
@@ -260,7 +261,7 @@
                   "frontendIPConfiguration": {
                     "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
                   },
-                  "protocol": "tcp",
+                  "protocol": "Tcp",
                   "frontendPort": 8026,
                   "backendPort": 22,
                   "enableFloatingIP": false
@@ -272,7 +273,7 @@
                   "frontendIPConfiguration": {
                     "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
                   },
-                  "protocol": "tcp",
+                  "protocol": "Tcp",
                   "frontendPort": 8027,
                   "backendPort": 22,
                   "enableFloatingIP": false
@@ -284,7 +285,7 @@
                   "frontendIPConfiguration": {
                     "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
                   },
-                  "protocol": "tcp",
+                  "protocol": "Tcp",
                   "frontendPort": 8028,
                   "backendPort": 22,
                   "enableFloatingIP": false
@@ -295,7 +296,7 @@
               {
                 "name": "tcpProbe",
                 "properties": {
-                  "protocol": "tcp",
+                  "protocol": "Tcp",
                   "port": 880,
                   "intervalInSeconds": 5,
                   "numberOfProbes": 2
@@ -304,7 +305,7 @@
               {
                 "name": "tcpProbe443",
                 "properties": {
-                  "protocol": "tcp",
+                  "protocol": "Tcp",
                   "port": 8443,
                   "intervalInSeconds": 5,
                   "numberOfProbes": 2

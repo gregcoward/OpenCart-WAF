@@ -104,7 +104,7 @@
       "name": "opencartInfrastructuretemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
-        "mode": "incremental",
+        "mode": "Incremental",
         "templateLink": {
           "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartInfrastructureTemplate.json",
           "contentVersion": "1.0.0.0"
@@ -123,7 +123,7 @@
         "Microsoft.Resources/deployments/opencartInfrastructuretemplate"
       ],
       "properties": {
-        "mode": "incremental",
+        "mode": "Incremental",
         "templateLink": {
           "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartmysqlTemplate.json",
           "contentVersion": "1.0.0.0"
@@ -145,7 +145,7 @@
         "Microsoft.Resources/deployments/opencartmysqltemplate"
       ],
       "properties": {
-        "mode": "incremental",
+        "mode": "Incremental",
         "templateLink": {
           "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartWebTemplate.json",
           "contentVersion": "1.0.0.0"
@@ -167,7 +167,7 @@
         "Microsoft.Resources/deployments/openCartWebTemplate"
       ],
       "properties": {
-        "mode": "incremental",
+        "mode": "Incremental",
         "templateLink": {
           "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartWAFTemplate.json",
           "contentVersion": "1.0.0.0"
