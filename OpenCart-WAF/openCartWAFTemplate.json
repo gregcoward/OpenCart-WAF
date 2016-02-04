@@ -20,7 +20,10 @@
     "licenseToken2": {
       "type": "string"
     },
-    "applicationAddress": {
+    "appAddress1": {
+      "type": "string"
+    },
+    "appAddress2": {
       "type": "string"
     },
     "applicationType": {
@@ -62,10 +65,6 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicNamePrefix'),'waf',copyindex())]",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', parameters('namePrefix'), 'lb/inboundNatRules/guimgt', copyIndex())]",
-        "[concat('Microsoft.Network/loadBalancers/', parameters('namePrefix'), 'lb/inboundNatRules/sshmgt', copyIndex())]"
-      ],
       "tags": {
         "displayName": "WAF Network Interface"
       },
@@ -93,109 +92,15 @@
               ],
               "loadBalancerInboundNatRules": [
                 {
-                  "id": "[concat(variables('lbID'), '/inboundNatRules/', 'guimgt',copyIndex())]"
+                  "id": "[concat(variables('lbID'), '/inboundNatRules/', 'gui-waf',copyIndex())]"
                 },
                 {
-                  "id": "[concat(variables('lbID'), '/inboundNatRules/', 'sshmgt',copyIndex())]"
+                  "id": "[concat(variables('lbID'), '/inboundNatRules/', 'ssh-waf',copyIndex())]"
                 }
               ]
             }
           }
         ]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
-      "tags": {
-        "displayName": "WAF Load Balancing Rule 80"
-      },
-      "name": "[concat(parameters('namePrefix'), 'lb/wafLBRule80')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "frontendIPConfiguration": {
-          "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
-        },
-        "backendAddressPool": {
-          "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
-        },
-        "protocol": "tcp",
-        "frontendPort": 80,
-        "backendPort": 880,
-        "enableFloatingIP": false,
-        "idleTimeoutInMinutes": 5,
-        "probe": {
-          "id": "[concat(variables('lbID'),'/probes/tcpProbe')]"
-        }
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
-      "tags": {
-        "displayName": "WAF Load Balancing Rule 443"
-      },
-      "name": "[concat(parameters('namePrefix'), 'lb/wafLBRule443')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "frontendIPConfiguration": {
-          "id": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
-        },
-        "backendAddressPool": {
-          "id": "[concat(variables('lbID'),'/backendAddressPools/LoadBalancerBackend')]"
-        },
-        "protocol": "tcp",
-        "frontendPort": 443,
-        "backendPort": 1443,
-        "enableFloatingIP": false,
-        "idleTimeoutInMinutes": 5,
-        "probe": {
-          "id": "[concat(variables('lbID'),'/probes/tcpProbe443')]"
-        }
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/loadBalancers/inboundNatRules",
-      "tags": {
-        "displayName": "GUI MGMT inboundNatRule"
-      },
-      "name": "[concat(parameters('namePrefix'), 'lb/guimgt', copyIndex())]",
-      "location": "[parameters('location')]",
-      "copy": {
-        "name": "lbNatLoop",
-        "count": "[variables('numberOFWAFs')]"
-      },
-      "properties": {
-        "frontendIPConfiguration": {
-          "id": "[variables('frontEndIPConfigID')]"
-        },
-        "protocol": "tcp",
-        "frontendPort": "[copyIndex(8443)]",
-        "backendPort": 443,
-        "enableFloatingIP": false
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/loadBalancers/inboundNatRules",
-      "tags": {
-        "displayName": "SSH MGMT inboundNatRule"
-      },
-      "name": "[concat(parameters('namePrefix'), 'lb/sshmgt', copyIndex())]",
-      "location": "[parameters('location')]",
-      "copy": {
-        "name": "lbNatLoop",
-        "count": "[variables('numberOFWAFs')]"
-      },
-      "properties": {
-        "frontendIPConfiguration": {
-          "id": "[variables('frontEndIPConfigID')]"
-        },
-        "protocol": "tcp",
-        "frontendPort": "[copyIndex(8025)]",
-        "backendPort": 22,
-        "enableFloatingIP": false
       }
     },
     {
@@ -277,7 +182,7 @@
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/azuresecurity.sh",
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh"
           ],
-          "commandToExecute": "[concat('bash start.sh ','true',';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),';',parameters('adminPassword'),';',parameters('licenseToken1'),';',toLower(variables('applicationName')),' 880;8444 ',variables('applicationProtocols'),' ',parameters('applicationAddress'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('securityBlockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain'))]"
+          "commandToExecute": "[concat('bash start.sh ','true',';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),';',parameters('adminPassword'),';',parameters('licenseToken1'),';',toLower(variables('applicationName')),' 880;8444 ',variables('applicationProtocols'),' ',parameters('appAddress1'),';',parameters('appAddress2'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('securityBlockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain'))]"
         }
       }
     },
@@ -300,7 +205,8 @@
           "adminUsername": { "value": "[parameters('adminUsername')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "licenseToken2": { "value": "[parameters('licenseToken2')]" },
-          "applicationAddress": { "value": "[parameters('applicationAddress')]" },
+          "appAddress1": { "value": "[parameters('appAddress1')]" },
+          "appAddress2": { "value": "[parameters('appAddress2')]" },
           "applicationType": { "value": "[parameters('applicationType')]" },
           "blockingLevel": { "value": "[parameters('SecurityBlockingLevel')]" },
           "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
@@ -310,7 +216,6 @@
       }
     }
   ],
-  "outputs": {
-
+  "outputs": {    
   }
 }

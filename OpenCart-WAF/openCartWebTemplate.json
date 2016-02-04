@@ -154,9 +154,13 @@
     }
   ],
   "outputs": {
-    "publicIP": {
-      "type": "string",
-      "value": "[reference(concat('Microsoft.Network/publicIPAddresses/',parameters('namePrefix'), 'pip'), '2015-05-01-preview').ipAddress]"
+    "webIP0": {
+      "value": "[reference(concat(parameters('namePrefix'),'webnic0')).ipConfigurations[0].properties.privateIPAddress]",
+      "type": "string"
+    },
+    "webIP1": {
+      "value": "[reference(concat(parameters('namePrefix'),'webnic1')).ipConfigurations[0].properties.privateIPAddress]",
+      "type": "string"
     }
   }
 }
