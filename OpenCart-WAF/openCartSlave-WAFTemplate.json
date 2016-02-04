@@ -45,7 +45,7 @@
     "applicationPorts": "80;443",
     "applicationFQDN": "[concat(parameters('namePrefix'),'.westus.cloudapp.azure.com')]",
     "numberOFWAFs": 2,
-    "vmSize": "Standard_A2",
+    "vmSize": "Standard_A3",
     "nicNamePrefix": "[concat(parameters('namePrefix'),'nic')]",
     "availabilitySetID": "[resourceId('Microsoft.Compute/availabilitySets',concat(parameters('namePrefix'), 'avset'))]",
     "newStorageAccountName": "[concat(parameters('namePrefix'),'storage')]",
