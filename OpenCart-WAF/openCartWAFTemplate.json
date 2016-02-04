@@ -208,7 +208,7 @@
           "appAddress1": { "value": "[parameters('appAddress1')]" },
           "appAddress2": { "value": "[parameters('appAddress2')]" },
           "applicationType": { "value": "[parameters('applicationType')]" },
-          "blockingLevel": { "value": "[parameters('SecurityBlockingLevel')]" },
+          "SecurityBlockingLevel": { "value": "[parameters('SecurityBlockingLevel')]" },
           "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
           "applicationKey": { "value": "[parameters('applicationKey')]" },
           "applicationChain": { "value": "[parameters('applicationChain')]" }
