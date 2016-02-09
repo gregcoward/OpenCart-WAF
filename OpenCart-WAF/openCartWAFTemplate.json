@@ -32,6 +32,12 @@
     "securityBlockingLevel": {
       "type": "string"
     },
+    "storageAccountName": {
+      "type": "string"
+    },
+    "storageAccountKey": {
+      "type": "securestring"
+    },
     "applicationCertificate": {
       "type": "string"
     },
@@ -176,13 +182,20 @@
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
         "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.2",
+        "typeHandlerVersion": "2.0",
         "settings": {
           "fileUris": [
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/azuresecurity.sh",
-            "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh"
+            "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh",
+            "[parameters('applicationCertificate')]",
+            "[parameters('applicationKey')]",
+            "[parameters('applicationChain')]"
           ],
           "commandToExecute": "[concat('bash start.sh ','true',';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),';',parameters('adminPassword'),';',parameters('licenseToken1'),';',toLower(variables('applicationName')),' 880;8444 ',variables('applicationProtocols'),' ',parameters('appAddress1'),';',parameters('appAddress2'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('securityBlockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain'))]"
+        },
+        "protectedSettings": {
+          "storageAccountName": "[parameters('storageAccountName')]",
+          "storageAccountKey": "[parameters('storageAccountKey')]"
         }
       }
     },
@@ -209,6 +222,8 @@
           "appAddress2": { "value": "[parameters('appAddress2')]" },
           "applicationType": { "value": "[parameters('applicationType')]" },
           "SecurityBlockingLevel": { "value": "[parameters('SecurityBlockingLevel')]" },
+          "storageAccountName": { "value": "[parameters('storageAccountName')]" },
+          "storageAccountKey": { "value": "[parameters('storageAccountKey')]" },
           "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
           "applicationKey": { "value": "[parameters('applicationKey')]" },
           "applicationChain": { "value": "[parameters('applicationChain')]" }

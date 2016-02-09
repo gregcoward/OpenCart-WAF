@@ -74,6 +74,18 @@
         "High"
       ]
     },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "This is the Azure Storage Account name that holds the certificate and certificate key files."
+      }
+    },
+    "storageAccountKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "This is the Azure Storage Account key used to access the Storage Account that holds the certificate and certificate key files."
+      }
+    },
     "applicationCertificate": {
       "type": "string",
       "defaultValue": "",
@@ -183,6 +195,8 @@
           "appAddress2": { "value": "[reference('openCartWebTemplate').outputs.webIP1.value]" },
           "applicationType": { "value": "Linux" },
           "securityBlockingLevel": { "value": "[parameters('securityBlockingLevel')]" },
+          "storageAccountName": { "value": "[parameters('storageAccountName')]" },
+          "storageAccountKey": { "value": "[parameters('storageAccountKey')]" },
           "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
           "applicationKey": { "value": "[parameters('applicationKey')]" },
           "applicationChain": { "value": "[parameters('applicationChain')]" }
