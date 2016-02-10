@@ -133,12 +133,12 @@
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
         "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.4",
+        "typeHandlerVersion": "1.3",
         "settings": {
           "fileUris": [
-            "parameters('applicationCertificate')",
-            "parameters('applicationKey')",
-            "parameters('applicationChain')",
+            "[parameters('applicationCertificate')]",
+            "[parameters('applicationKey')]",
+            "[parameters('applicationChain')]",
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/azuresecurity.sh",
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh"
           ],
