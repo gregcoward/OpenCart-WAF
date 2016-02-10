@@ -136,13 +136,13 @@
         "typeHandlerVersion": "1.4",
         "settings": {
           "fileUris": [
+            "parameters('applicationCertificate')",
+            "parameters('applicationKey')",
+            "parameters('applicationChain')",
             "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/azuresecurity.sh",
-            "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh",
-            "[parameters('applicationCertificate')]",
-            "[parameters('applicationKey')]",
-            "[parameters('applicationChain')]"
+            "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/start.sh"
           ],
-          "commandToExecute": "[concat('bash start.sh ','false',';',concat(variables('wafNamePrefix'),add(copyindex(),1)),';',concat('10.10.2.',add(add(4,copyindex()),1),';',parameters('adminPassword'),';',parameters('licenseToken2'),';',toLower(variables('applicationName')),';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),' 880;8444 ',variables('applicationProtocols'),' ',parameters('appAddress1'),';',parameters('appAddress2'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('securityBlockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain')))]"
+          "commandToExecute": "[concat('bash start.sh ','true',';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),';',parameters('adminPassword'),';',parameters('licenseToken1'),';',toLower(variables('applicationName')),' 880;8444 ',variables('applicationProtocols'),' ',parameters('appAddress1'),';',parameters('appAddress2'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('securityBlockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain'))]"
         },
         "protectedSettings": {
           "storageAccountName": "[parameters('storageAccountName')]",
