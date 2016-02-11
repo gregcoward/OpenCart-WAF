@@ -183,9 +183,9 @@
           "fileUris": [
             "[parameters('applicationCertificate')]",
             "[parameters('applicationKey')]",
-            "[parameters('applicationChain')]"            
+            "[parameters('applicationChain')]"
           ],
-          "commandToExecute": "bash"
+          "commandToExecute": "[concat('/bin/bash ', 'echo Cert files coppied.')]"
         },
         "protectedSettings": {
           "storageAccountName": "[parameters('storageAccountName')]",
