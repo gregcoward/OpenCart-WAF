@@ -185,7 +185,7 @@
             "[parameters('applicationKey')]",
             "[parameters('applicationChain')]"            
           ],
-          "commandToExecute": ""
+          "commandToExecute": "bash logger Cert File have been placed on the WAF."
         },
         "protectedSettings": {
           "storageAccountName": "[parameters('storageAccountName')]",
