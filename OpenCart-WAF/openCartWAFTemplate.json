@@ -185,7 +185,7 @@
             "[parameters('applicationKey')]",
             "[parameters('applicationChain')]"
           ],
-          "commandToExecute": "[concat('/bin/bash ', 'echo Cert files coppied.')]"
+          "commandToExecute": "[concat('/bin/bash ', 'echo \"Cert files copied.\"')]"
         },
         "protectedSettings": {
           "storageAccountName": "[parameters('storageAccountName')]",
