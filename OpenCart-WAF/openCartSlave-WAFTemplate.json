@@ -141,8 +141,8 @@
           "commandToExecute": "[concat('bash start.sh ','true',';',concat(variables('wafNamePrefix'),0),';',concat('10.10.2.',4),';',parameters('adminPassword'),';',parameters('licenseToken2'),';',toLower(variables('applicationName')),' 880;8444 ',variables('applicationProtocols'),' ',parameters('appAddress1'),';',parameters('appAddress2'),';',replace(toLower(parameters('location')),' ',''),' ',variables('applicationPorts'),' ',toLower(parameters('applicationType')),';',toLower(parameters('securityBlockingLevel')),';',toLower(variables('applicationFQDN')),';',parameters('applicationCertificate'),';',parameters('applicationKey'),';',parameters('applicationChain'))]"
         },
         "protectedSettings": {
-          "storageAccountKey": "[parameters('storageAccountKey')]",
-          "storageAccountName": "[parameters('storageAccountName')]"
+          "storageAccountName": "[parameters('storageAccountName')]",
+          "storageAccountKey": "[parameters('storageAccountKey')]"
         }
       }
     }
