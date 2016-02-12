@@ -178,14 +178,14 @@
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
         "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.3",
+        "typeHandlerVersion": "1.4",
         "settings": {
           "fileUris": [
             "[parameters('applicationCertificate')]",
             "[parameters('applicationKey')]",
             "[parameters('applicationChain')]"
           ],
-          "commandToExecute": "[concat('/bin/bash -c ', 'echo \"Cert files copied.\"')]"
+          "commandToExecute": "echo Cert files copied."
         },
         "protectedSettings": {
           "storageAccountName": "[parameters('storageAccountName')]",
