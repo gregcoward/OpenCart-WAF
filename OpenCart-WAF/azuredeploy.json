@@ -4,7 +4,7 @@
   "parameters": {
     "namePrefix": {
       "type": "string",
-      "defaultValue":"f5demobigipandme"
+      "defaultValue":"f5demoapps"
     },
     "location": {
       "type": "string",
