@@ -24,11 +24,11 @@
     },
     "licenseToken1": {
       "type": "string",
-      "defaultValue:"FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
+      "defaultValue":"FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
     },
     "licenseToken2": {
       "type": "string",
-	  defaultValue:"STRNN-STIXN-CVHNF-FNNUE-LXRAAG"
+      "defaultValue":"STRNN-STIXN-CVHNF-FNNUE-LXRAAG"
     },
     "securityBlockingLevel": {
       "type": "string",
