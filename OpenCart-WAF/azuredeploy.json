@@ -4,109 +4,56 @@
   "parameters": {
     "namePrefix": {
       "type": "string",
-      "metadata": {
-        "description": "The name that will prefix all objects, and will serve as the unique DNS name for this instance."
-      }
+      "defaultValue":"f5demobigipandme"
     },
     "location": {
       "type": "string",
       "defaultValue": "East US",
-      "allowedValues": [
-        "Brazil South",
-        "Central US",
-        "East Aisa",
-        "East US",
-        "East US 2",
-        "Japan East",
-        "Japan West",
-        "North Central US",
-        "North Europe",
-        "South Central US",
-        "Southeast Aisa",
-        "West Europe",
-        "West US"
-      ],
-      "metadata": {
-        "description": "The data center you want to install this WAF into."
-      }
     },
     "adminUsername": {
       "type": "string",
-      "metadata": {
-        "description": "Admin username used to login with."
-      }
+      "defaultValue": "xuser"
     },
     "adminPassword": {
       "type": "securestring",
-      "metadata": {
-        "description": "Admin password used to login with."
-      }
+      "defaultValue": "F5testnetnet"
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_A1",
-      "allowedValues": [
-        "Standard_A0",
-        "Standard_A1",
-        "Standard_A2",
-        "Standard_A3",
-        "Standard_A4"
-      ],
-      "metadata": {
-        "description": "Virtual Machine instance size."
-      }
+      "defaultValue": "Standard_A1"
     },
     "licenseToken1": {
-      "type": "string"
+      "type": "string",
+	  "defaultValue:"FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
     },
     "licenseToken2": {
-      "type": "string"
+      "type": "string",
+	  defaultValue:"STRNN-STIXN-CVHNF-FNNUE-LXRAAG"
     },
     "securityBlockingLevel": {
       "type": "string",
-      "metadata": {
-        "description": "Please select how aggressive you would like the blocking level of this WAF to be.  Remember that the more aggressive the blocking level, the more potential there is for false-positives that the WAF might detect."
-      },
       "defaultValue": "Medium",
-      "allowedValues": [
-        "Low",
-        "Medium",
-        "High"
-      ]
     },
     "storageAccountName": {
       "type": "string",
-      "metadata": {
-        "description": "This is the Azure Storage Account name that holds the certificate and certificate key files."
-      }
+	  "defaultValue":"f5demostorage"
     },
     "storageAccountKey": {
       "type": "securestring",
-      "metadata": {
-        "description": "This is the Azure Storage Account key used to access the Storage Account that holds the certificate and certificate key files."
-      }
+	  "defaultValue":"uxvBmjhDABaG3NwVxoWzb1kRptnVoSCMgNM4nAioW13YJ3sz/k5vzqGjJRmmkf6qUjISTzfWsVoT6UE/xhYHXg=="
     },
     "applicationCertificate": {
       "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "The path to the SSL certificate file. (Optional)"
-      }
+      "defaultValue": ""
     },
     "applicationKey": {
       "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "The path to the SSL key file. (Optional)"
-      }
+      "defaultValue": ""
     },
     "applicationChain": {
       "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "The path to the SSL chain file. (Optional)"
-      }
-    }
+      "defaultValue": ""
+    }    
   },
   "variables": {
   },
