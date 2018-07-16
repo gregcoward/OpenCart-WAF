@@ -118,7 +118,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartInfrastructureTemplate.json",
+          "uri": "https://raw.githubusercontent.com/gregcoward/OpenCart-WAF/master/OpenCart-WAF/openCartInfrastructureTemplate.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -137,7 +137,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartmysqlTemplate.json",
+          "uri": "https://raw.githubusercontent.com/gregcoward/OpenCart-WAF/master/OpenCart-WAF/openCartmysqlTemplate.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -159,7 +159,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartWebTemplate.json",
+          "uri": "https://raw.githubusercontent.com/gregcoward/OpenCart-WAF/master/OpenCart-WAF/openCartWebTemplate.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -181,7 +181,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/tstanley93/OpenCart-WAF/master/OpenCart-WAF/openCartWAFTemplate.json",
+          "uri": "https://raw.githubusercontent.com/gregcoward/OpenCart-WAF/master/OpenCart-WAF/openCartWAFTemplate.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
