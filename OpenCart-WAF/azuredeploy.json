@@ -8,7 +8,7 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "East US",
+      "defaultValue": "East US"
     },
     "adminUsername": {
       "type": "string",
@@ -32,7 +32,7 @@
     },
     "securityBlockingLevel": {
       "type": "string",
-      "defaultValue": "Medium",
+      "defaultValue": "Medium"
     },
     "storageAccountName": {
       "type": "string",
