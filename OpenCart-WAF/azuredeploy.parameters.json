@@ -19,7 +19,7 @@
     },
     "licenseToken1": {
       "type": "string",
-      "defaultValue:"FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
+      "defaultValue":"FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
     },
     "licenseToken2": {
       "type": "string",
