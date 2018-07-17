@@ -3,7 +3,7 @@
   "parameterValues": {     
 	"location": {
       "type": "string",
-      "defaultValue": "East US",
+      "defaultValue": "East US"
     },
     "adminUsername": {
       "type": "string",
@@ -19,7 +19,7 @@
     },
     "licenseToken1": {
       "type": "string",
-	  "defaultValue:"FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
+      "defaultValue:"FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
     },
     "licenseToken2": {
       "type": "string",
@@ -27,7 +27,7 @@
     },
     "securityBlockingLevel": {
       "type": "string",
-      "defaultValue": "Medium",
+      "defaultValue": "Medium"
     },
     "storageAccountName": {
       "type": "string",
