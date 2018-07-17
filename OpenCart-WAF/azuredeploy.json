@@ -117,38 +117,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
       }
-    },
-    {
-      "apiVersion": "2015-01-01",
-      "name": "openCartWAFTemplate",
-      "type": "Microsoft.Resources/deployments",
-      "dependsOn": [
-        "Microsoft.Resources/deployments/openCartWebTemplate"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "https://raw.githubusercontent.com/gregcoward/OpenCart-WAF/master/OpenCart-WAF/openCartWAFTemplate.json",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "namePrefix": { "value": "[parameters('namePrefix')]" },
-          "location": { "value": "[parameters('location')]" },
-          "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "adminPassword": { "value": "[parameters('adminPassword')]" },
-          "licenseToken1": { "value": "[parameters('licenseToken1')]" },
-          "licenseToken2": { "value": "[parameters('licenseToken2')]" },
-          "appAddress1": { "value": "[reference('openCartWebTemplate').outputs.webIP0.value]" },
-          "appAddress2": { "value": "[reference('openCartWebTemplate').outputs.webIP1.value]" },
-          "applicationType": { "value": "Linux" },
-          "securityBlockingLevel": { "value": "[parameters('securityBlockingLevel')]" },
-          "storageAccountName": { "value": "[parameters('storageAccountName')]" },
-          "storageAccountKey": { "value": "[parameters('storageAccountKey')]" },
-          "applicationCertificate": { "value": "[parameters('applicationCertificate')]" },
-          "applicationKey": { "value": "[parameters('applicationKey')]" },
-          "applicationChain": { "value": "[parameters('applicationChain')]" }
-        }
-      }
+    }
     }
   ],
   "outputs": {
