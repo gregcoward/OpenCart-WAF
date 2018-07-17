@@ -1,1 +1,125 @@
-
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namePrefix": {
+      "type": "string",
+      "defaultValue": "f5demoapps"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "East US"
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "xuser"
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "defaultValue": "F5testnetnet"
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_A1"
+    },
+    "licenseToken1": {
+      "type": "string",
+      "defaultValue": "FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
+    },
+    "licenseToken2": {
+      "type": "string",
+      "defaultValue": "STRNN-STIXN-CVHNF-FNNUE-LXRAAG"
+    },
+    "securityBlockingLevel": {
+      "type": "string",
+      "defaultValue": "Medium"
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "f5demostorage"
+    },
+    "storageAccountKey": {
+      "type": "securestring",
+      "defaultValue": "uxvBmjhDABaG3NwVxoWzb1kRptnVoSCMgNM4nAioW13YJ3sz/k5vzqGjJRmmkf6qUjISTzfWsVoT6UE/xhYHXg=="
+    },
+    "applicationCertificate": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "applicationKey": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "applicationChain": {
+      "type": "string",
+      "defaultValue": ""
+    }
+  },
+  "variables": {
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-01-01",
+      "name": "opencartInfrastructuretemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/gregcoward/OpenCart-WAF/master/OpenCart-WAF/openCartInfrastructureTemplate.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "namePrefix": { "value": "[parameters('namePrefix')]" },
+          "location": { "value": "[parameters('location')]" }
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-01-01",
+      "name": "opencartmysqltemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/opencartInfrastructuretemplate"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/gregcoward/OpenCart-WAF/master/OpenCart-WAF/openCartmysqlTemplate.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "namePrefix": { "value": "[parameters('namePrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "vmSize": { "value": "[parameters('vmSize')]" },
+          "adminUsername": { "value": "[parameters('adminUsername')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" }
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-01-01",
+      "name": "openCartWebTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/opencartmysqltemplate"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/gregcoward/OpenCart-WAF/master/OpenCart-WAF/openCartWebTemplate.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "namePrefix": { "value": "[parameters('namePrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "vmSize": { "value": "[parameters('vmSize')]" },
+          "adminUsername": { "value": "[parameters('adminUsername')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    
+  }
+}
