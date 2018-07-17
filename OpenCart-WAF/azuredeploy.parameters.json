@@ -23,7 +23,7 @@
     },
     "licenseToken2": {
       "type": "string",
-	  defaultValue:"STRNN-STIXN-CVHNF-FNNUE-LXRAAG"
+      "defaultValue":"STRNN-STIXN-CVHNF-FNNUE-LXRAAG"
     },
     "securityBlockingLevel": {
       "type": "string",
