@@ -4,7 +4,7 @@
   "parameters": {
     "namePrefix": {
       "type": "string",
-      "defaultValue":"f5demoapps"
+      "defaultValue": "f5demoapps"
     },
     "location": {
       "type": "string",
@@ -24,11 +24,11 @@
     },
     "licenseToken1": {
       "type": "string",
-      "defaultValue":"FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
+      "defaultValue": "FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
     },
     "licenseToken2": {
       "type": "string",
-      "defaultValue":"STRNN-STIXN-CVHNF-FNNUE-LXRAAG"
+      "defaultValue": "STRNN-STIXN-CVHNF-FNNUE-LXRAAG"
     },
     "securityBlockingLevel": {
       "type": "string",
@@ -36,11 +36,11 @@
     },
     "storageAccountName": {
       "type": "string",
-	  "defaultValue":"f5demostorage"
+      "defaultValue": "f5demostorage"
     },
     "storageAccountKey": {
       "type": "securestring",
-	  "defaultValue":"uxvBmjhDABaG3NwVxoWzb1kRptnVoSCMgNM4nAioW13YJ3sz/k5vzqGjJRmmkf6qUjISTzfWsVoT6UE/xhYHXg=="
+      "defaultValue": "uxvBmjhDABaG3NwVxoWzb1kRptnVoSCMgNM4nAioW13YJ3sz/k5vzqGjJRmmkf6qUjISTzfWsVoT6UE/xhYHXg=="
     },
     "applicationCertificate": {
       "type": "string",
@@ -53,7 +53,7 @@
     "applicationChain": {
       "type": "string",
       "defaultValue": ""
-    }    
+    }
   },
   "variables": {
   },
@@ -117,7 +117,6 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
       }
-    }
     }
   ],
   "outputs": {
