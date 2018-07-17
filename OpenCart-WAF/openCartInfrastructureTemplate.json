@@ -315,6 +315,7 @@
           }
     }
   ],
-  "outputs": {       
+  "outputs": {  
+   "test":"done"
   }
 }
