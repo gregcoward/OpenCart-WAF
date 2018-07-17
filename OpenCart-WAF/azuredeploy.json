@@ -120,6 +120,9 @@
     }
   ],
   "outputs": {
-    
+    "FinalOK": {
+      "type": "string",
+      "value": "OK"
+    }
   }
 }
