@@ -316,9 +316,9 @@
     }
   ],
   "outputs": {  
-        "Documentation": {
+        "Infrastructure Deployment Status": {
           "type": "string",
-          "value": "This is a test"
+          "value": "Successful"
         }
   }
 }
