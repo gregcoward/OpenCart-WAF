@@ -4,43 +4,43 @@
   "parameters": {
     "namePrefix": {
       "type": "string",
-      "defaultValue": "f5demoapps"
+      "defaultValue": ""
     },
     "location": {
       "type": "string",
-      "defaultValue": "East US"
+      "defaultValue": ""
     },
     "adminUsername": {
       "type": "string",
-      "defaultValue": "xuser"
+      "defaultValue": ""
     },
     "adminPassword": {
       "type": "securestring",
-      "defaultValue": "F5testnetnet"
+      "defaultValue": ""
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_A1"
+      "defaultValue": ""
     },
     "licenseToken1": {
       "type": "string",
-      "defaultValue": "FXPVK-MLNFR-YGFIG-OBJVA-DZTGINZ"
+      "defaultValue": ""
     },
     "licenseToken2": {
       "type": "string",
-      "defaultValue": "STRNN-STIXN-CVHNF-FNNUE-LXRAAG"
+      "defaultValue": ""
     },
     "securityBlockingLevel": {
       "type": "string",
-      "defaultValue": "Medium"
+      "defaultValue": ""
     },
     "storageAccountName": {
       "type": "string",
-      "defaultValue": "f5demostorage"
+      "defaultValue": ""
     },
     "storageAccountKey": {
       "type": "securestring",
-      "defaultValue": "uxvBmjhDABaG3NwVxoWzb1kRptnVoSCMgNM4nAioW13YJ3sz/k5vzqGjJRmmkf6qUjISTzfWsVoT6UE/xhYHXg=="
+      "defaultValue": ""
     },
     "applicationCertificate": {
       "type": "string",
